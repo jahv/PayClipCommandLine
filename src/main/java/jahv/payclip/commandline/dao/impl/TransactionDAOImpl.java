@@ -66,6 +66,7 @@ public class TransactionDAOImpl implements TransactionsDAO {
     }
 
     private List<String> getTransactions() {
+        touchFile();
         List<String> transactions;
         File file = FileUtils.getFile(fileName);
         try {
@@ -74,6 +75,15 @@ public class TransactionDAOImpl implements TransactionsDAO {
             throw new PayClipFileException("Error reading transactions");
         }
         return transactions;
+    }
+
+    private void touchFile() {
+        File file = FileUtils.getFile(fileName);
+        try {
+            FileUtils.touch(file);
+        } catch (IOException e) {
+            throw new PayClipFileException("Error creating transactions file");
+        }
     }
 
     public String getFileName() {
