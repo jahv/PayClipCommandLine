@@ -59,6 +59,30 @@ public class TransactionServiceTest {
     }
 
     @Test
+    public void saveTest_UserIdNotMatch() {
+        int userX = 123;
+        int userId = 345;
+        Date date = new Date();
+
+        Transaction transaction = UtilsForTest.generateTransaction(1.0, "description", userId, date);
+        transaction.setTransactionId(null);
+
+        EasyMock.expect(transactionsDAOMock.save(transaction)).andReturn(transaction);
+
+        PowerMock.replayAll();
+        Transaction transactionSaved = transactionService.save(userX, transaction);
+
+        Assert.assertNotNull(transactionSaved);
+        Assert.assertNotNull(transactionSaved.getTransactionId());
+        Assert.assertEquals(1.0, transactionSaved.getAmount(), 0);
+        Assert.assertEquals("description", transactionSaved.getDescription());
+        Assert.assertEquals(userX, transactionSaved.getUserId());
+        Assert.assertEquals(date, transaction.getDate());
+
+        PowerMock.verifyAll();
+    }
+
+    @Test
     public void sumTest() {
         int userId1 = 123;
         int userId2 = 456;

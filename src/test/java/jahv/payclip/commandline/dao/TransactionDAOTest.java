@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 public class TransactionDAOTest {
 
@@ -92,6 +93,21 @@ public class TransactionDAOTest {
         Assert.assertTrue(transactionListSaved.containsAll(transactionsForUser2));
 
         transactionListSaved = transactionsDAO.get(999);
+        Assert.assertTrue(transactionListSaved.isEmpty());
+    }
+
+    @Test
+    public void getTransactionTest_noDataSaved() {
+        int userId = 1;
+        String transactionId = UUID.randomUUID().toString();
+        Transaction transaction = transactionsDAO.get(userId, transactionId);
+        Assert.assertNull(transaction);
+    }
+
+    @Test
+    public void getTransactionsTest_noDataSaved() {
+        int userId = 1;
+        List<Transaction> transactionListSaved = transactionsDAO.get(userId);
         Assert.assertTrue(transactionListSaved.isEmpty());
     }
 

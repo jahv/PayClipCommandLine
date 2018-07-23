@@ -4,6 +4,7 @@ import jahv.payclip.commandline.dao.TransactionsDAO;
 import jahv.payclip.commandline.domain.SumTransaction;
 import jahv.payclip.commandline.domain.Transaction;
 import jahv.payclip.commandline.service.TransactionService;
+import jahv.payclip.commandline.utils.Helpers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +21,8 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     public Transaction save(int userId, Transaction transaction) {
+        validateUserIdMatch(userId, transaction);
+
         transaction.generateUniqueTransactionId();
 
         return transactionsDAO.save(transaction);
@@ -50,6 +53,14 @@ public class TransactionServiceImpl implements TransactionService {
         sumTransaction.setSum(sum);
 
         return sumTransaction;
+    }
+
+    private void validateUserIdMatch(int userId, Transaction t) {
+        if(userId != t.getUserId()) {
+            String message = "WARN: user_id in the JSON does not match the user_id in the command. Application will use user_id from the command";
+            Helpers.printMessage(message);
+            t.setUserId(userId);
+        }
     }
 
 
