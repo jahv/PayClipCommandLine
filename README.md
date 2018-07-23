@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/jahv/PayClipCommandLine.svg?branch=master)](https://travis-ci.org/jahv/PayClipCommandLine)
+
 # PayClipCommandLine
 Command line tool
 
@@ -13,7 +15,8 @@ java -jar Application-XXX-jar-with-dependecies.jar [Options]
 ### [Options]
 
         ADD: <user_id> ADD <transaction_json>
-                Add a transaction to the user specified in <user_id> using the information specified in <transaction_json>
+                Add a transaction to the user specified in <user_id> using the information 
+                specified in <transaction_json>
         
         SHOW: <user_id> <transaction_id>
                 Return the transaction specified in the <transaction_id>
